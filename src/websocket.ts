@@ -37,4 +37,4 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 		statusCode: 200,
 		body: "OK",
 	}
-};
+}
