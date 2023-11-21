@@ -1,0 +1,3 @@
+# don't push a local history
+.history
+.history/

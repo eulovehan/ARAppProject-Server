@@ -1,0 +1,19 @@
+service:
+  name: serverless-websocket
+
+plugins:
+  - serverless-plugin-typescript
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  websocket:
+    handler: dist/websocket.handler
+    events:
+      - websocket: $connect
+      - websocket: $disconnect
+      - websocket:
+          route: $default
+          authorizer: aws_iam
