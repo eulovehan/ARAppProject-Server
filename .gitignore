@@ -1,3 +1,9 @@
 # don't push a local history
 .history
 .history/
+
+# don't push a installs
+node_modules
+node_modules/
+.dist
+.dist/
