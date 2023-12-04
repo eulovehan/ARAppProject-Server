@@ -18,12 +18,14 @@ export function wrapper(req: Request, res: Response, err: any) {
 	const {
 		opcode,
 		message,
-		stack
+		stack,
+		input
 	} = err;
 
 	return res.status(500).json({
 		opcode,
 		message,
-		stack
+		stack,
+		input
 	});
 }
