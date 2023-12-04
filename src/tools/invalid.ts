@@ -6,9 +6,11 @@ export default class Invalid {
 		title: string;
 		maxLength?: number;
 		minLength?: number;
+		nullable?: boolean;
 	}) {
 		const {
-			title
+			title,
+			nullable
 		} = props;
 
 		let {
@@ -22,6 +24,10 @@ export default class Invalid {
 
 		if (!minLength) {
 			minLength = 0;
+		}
+
+		if (nullable && !data) {
+			return true;
 		}
 
 		if (!(typeof data === "string")) {
