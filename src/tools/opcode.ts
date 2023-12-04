@@ -17,6 +17,9 @@ export enum Opcode {
 	/** 입력 검증 실패 */
 	InvalidInput = "InvalidInput",
 
+	/** 이미 존재하는 회원 이메일 */
+	AlreadyExistEmail = "AlreadyExistEmail",
+
 	/** 이메일이 없음 */
 	NotFindEmail = "NotFindEmail",
 
