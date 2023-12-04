@@ -1,20 +1,32 @@
 import { Opcode } from './opcode';
 
-export function ServerError (message: string, props?: {
+export function ServerError(message: string, props?: {
 	opcode: string;
-	stack: string;
+	stack?: string;
+	input?: string;
 }) {
 	const {
 		opcode,
-		stack
+		stack,
+		input
 	}  = props || {
 		opcode: Opcode.UnkownError,
-		stack: null
+		stack: null,
+		input: null
 	};
 
 	return {
 		opcode,
 		message,
-		stack
+		stack,
+		input
 	};
+}
+
+export function SQLExceptionError(sql: string, err: Error) {
+	throw ServerError(`${sql} ---> SQL 쿼리 실행에 실패 했습니다.`, {
+		opcode: Opcode.SQLError,
+		stack: err.stack,
+		input: sql
+	});
 }
