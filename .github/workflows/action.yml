@@ -30,7 +30,7 @@ jobs:
         port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
         script: | # 실행할 스크립트
           cd /home/ec2-user/test
-          git pull origin dev
+          git pull origin main
           pm2 kill
           npm i --force
           npm run build
