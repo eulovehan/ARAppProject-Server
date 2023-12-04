@@ -23,6 +23,6 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@your-ec2-ip 'cd /path/to/your/app && git pull origin main && npm install && pm2 restart your-app-name'
+        ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@ec2-13-124-9-193.ap-northeast-2.compute.amazonaws.com 'cd /home/ec2-user/test && git pull origin main && npm install && pm2 restart your-app-name'
       env:
         CI: false
