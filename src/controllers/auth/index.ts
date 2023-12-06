@@ -91,12 +91,15 @@ export default class AuthController {
 		const findUser = await AppDataSource.getRepository(UserModel)
 		.createQueryBuilder("user")
 		.select([
-			"user.id as id",
+			"user.id as userId",
 			"user.password as password"
 		])
 		.where("user.email = :email", { email })
 		.getRawOne()
-		.then((res) => {
+		.then((res: {
+			userId: string;
+			password: string;
+		}) => {
 			return res;
 		})
 		.catch((err) => {
