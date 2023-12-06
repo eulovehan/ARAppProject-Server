@@ -29,9 +29,12 @@ jobs:
         key: ${{ secrets.REMOTE_PRIVATE_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          cd /home/ec2-user/test
           pm2 kill
-          rm -rf dist
+          cd /home/ec2-user
+          rm -rf app
+          mkdir -p app
+          cd app
+          cp -rp /home/ec2-user/config.js ./
           git pull origin main
           npm i --force
           npm run-script build
