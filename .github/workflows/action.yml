@@ -34,8 +34,10 @@ jobs:
           rm -rf app
           mkdir -p app
           cd app
+          git clone https://github.com/eulovehan/waterIV-Server.git
+          mv waterIV-Server/* ./
+          rm -rf waterIV-Server
           cp -rp /home/ec2-user/config.js ./
-          git pull origin main
           npm i --force
           npm run-script build
           pm2 start dist/index.js
