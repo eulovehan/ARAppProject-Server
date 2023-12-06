@@ -117,6 +117,77 @@ export default class UserController {
 		return;
 	}
 
+	/** 카드등록 현황 */
+	public static async cardList(props: {
+		userId: string;
+		page: number;
+		amount: number;
+	}) {
+		const {
+			userId,
+			page,
+			amount
+		} = props;
+
+		const repository = AppDataSource.getRepository(UserCardModel)
+		.createQueryBuilder("user_card")
+		.select([
+			"user_card.id as id",
+			"user_card.number as number",
+			"user_card.exp_month as exp_month",
+			"user_card.exp_year as exp_year",
+			"user_card.name as name",
+			"user_card.phone as phone",
+			"user_card.birth as birth",
+			"user_card.isMainPayment as isMainPayment"
+		])
+		.where("user_card.userId = :userId", { userId })
+		.andWhere("user_card.enabled = :enabled", { enabled: true });
+
+		const cards = await repository
+		.orderBy("user_card.id", "DESC")
+		.offset(page * amount)
+		.limit(amount)
+		.getRawMany()
+		.then((res: Array<{
+			id: string;
+			number: string;
+			exp_month: string;
+			exp_year: string;
+			name: string;
+			phone: string;
+			birth: string;
+			isMainPayment: boolean;
+		}>) => {
+			return res.map((item) => {
+				return {
+					id: item.id,
+					number: item.number,
+					exp_month: item.exp_month,
+					exp_year: item.exp_year,
+					name: item.name,
+					phone: item.phone,
+					birth: item.birth,
+					isMainPayment: item.isMainPayment
+				}
+			});
+		})
+		.catch((err) => {
+			throw SQLExceptionError("user.cardList.list", err);
+		});
+
+		const count = await repository
+		.getCount()
+		.catch((err) => {
+			throw SQLExceptionError("user.cardList.count", err);
+		});
+
+		return {
+			cards,
+			count
+		}
+	}
+
 	/** 카드 등록 */
 	public static async cardRegistration(props: {
 		userId: string;
