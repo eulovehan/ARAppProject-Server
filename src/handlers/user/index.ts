@@ -72,7 +72,35 @@ export default class UserHandler {
 		});
 	}
 
-	/** 카드등록 - post /user/cardRegistration */
+	/** 카드등록 현황 - get /user/card/cardList */
+	public static async cardList(req: Request, res: Response) {
+		const {
+			user,
+			query
+		} = req;
+
+		let {
+			page,
+			amount
+		}: any = query;
+
+		page = page ? parseInt(page) : 0;
+		amount = amount ? parseInt(amount) : 10;
+
+		const { cards, count } = await UserController.cardList({
+			userId: user.id,
+			page,
+			amount
+		});
+
+		return res.status(200).json({
+			opcode: Opcode.Success,
+			cards,
+			count
+		});
+	}
+
+	/** 카드등록 - post /user/card/registration */
 	public static async cardRegistration(req: Request, res: Response) {
 		const {
 			user,
