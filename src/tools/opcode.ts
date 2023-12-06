@@ -25,4 +25,13 @@ export enum Opcode {
 
 	/** 패스워드 검증 실패 */
 	NotIdenticalPassword = "NotIdenticalPassword",
+
+	/** 세션 아웃 */
+	SessionOut = "SessionOut",
+
+	/** 상품이 존재하지 않음 */
+	NotExistsWaterId = "NotExistsWaterId",
+	
+	/** 배송 3일전에는 변경 불가 */
+	NotChangeWaterOptions = "NotChangeWaterOptions",
 }

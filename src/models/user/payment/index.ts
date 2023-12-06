@@ -16,8 +16,12 @@ export default class UserPaymentModel extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	public id: string;
 
+	/** user id */
+	@Column({ type: "uuid", length: 36, nullable: false })
+	public userId: string;
+	
 	/** water id */
-	@Column({ type: "uuid", nullable: true, default: null })
+	@Column({ type: "uuid", length: 36, nullable: true, default: null })
 	public waterId: string;
 
 	/** water amount */

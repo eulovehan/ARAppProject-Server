@@ -15,9 +15,17 @@ export default class UserCardModel extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	public id: string;
 
+	/** user id */
+	@Column({ type: "uuid", length: 36, nullable: false })
+	public userId: string;
+
 	/** is enabled */
 	@Column({ type: "boolean", nullable: false, default: true })
 	public enabled: boolean;
+
+	/** is main card */
+	@Column({ type: "boolean", nullable: false, default: false })
+	public isMainPayment: boolean;
 
 	/** card number */
 	@Column({ type: "varchar", length: 16, nullable: false })

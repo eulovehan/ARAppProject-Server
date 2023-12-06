@@ -1,5 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import UserPaymentModel from "../user/payment";
+import UserModel from "../user";
 
 @Entity({ name: "water" })
 export default class WaterModel extends BaseEntity {
@@ -32,6 +33,9 @@ export default class WaterModel extends BaseEntity {
 	public createdAt: Date;
 
 	/** relation */
+	@OneToMany(() => UserModel, ({ water }) => water, ({ onDelete: "SET NULL", nullable: true }))
+	public user: Array<UserModel>;
+
 	@OneToMany(() => UserPaymentModel, ({ water }) => water, ({ onDelete: "SET NULL", nullable: true }))
 	public payment: Array<UserPaymentModel>;
 }
