@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc --incremental",
+    "build": "tsc --build --incremental",
     "start": "node .",
     "serve": "tsc-watch --onSuccess \"node .\""
   },
