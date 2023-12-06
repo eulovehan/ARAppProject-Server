@@ -69,6 +69,18 @@ export default class UserModel extends BaseEntity {
 	@Column({ type: "timestamp", nullable: true, default: null })
 	public water_deliveredAt: Date;
 
+	/** 기본 배송지 */
+	@Column({ type: "varchar", length: 255, nullable: true, default: null })
+	public address: string;
+
+	/** 배송지 상세 */
+	@Column({ type: "varchar", length: 255, nullable: true, default: null })
+	public detailAddress: string;
+
+	/** 배송지 공동현관 비밀번호 */
+	@Column({ type: "varchar", length: 32, nullable: true, default: null })
+	public addressPublicPassword: string;
+
 	/** relation */
 	@OneToMany(() => UserCardModel, ({ user }) => user, ({ onDelete: "CASCADE" }))
 	public card: Array<UserCardModel>;

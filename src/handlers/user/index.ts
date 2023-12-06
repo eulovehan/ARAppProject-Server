@@ -174,4 +174,102 @@ export default class UserHandler {
 			opcode: Opcode.Success
 		});
 	}
+
+	/** 카드등록 해제 - delete /user/card/remove */
+	public static async cardRemove(req: Request, res: Response) {
+		const {
+			user,
+			params
+		} = req;
+
+		const {
+			cardId
+		} = params;
+
+		Invalid.varchar(cardId, {
+			title: "카드 ID",
+			minLength: 36,
+			maxLength: 36
+		});
+
+		await UserController.cardRemove({
+			userId: user.id,
+			cardId
+		});
+
+		return res.status(200).json({
+			opcode: Opcode.Success
+		});
+	}
+
+	/** 배송지 현황 - get /user/address/info */
+	public static async addressInfo(req: Request, res: Response) {
+		const {
+			user
+		} = req;
+
+		const { address, detailAddress, addressPublicPassword } = await UserController.addressInfo(user.id);
+
+		return res.status(200).json({
+			opcode: Opcode.Success,
+			address,
+			detailAddress,
+			addressPublicPassword
+		});
+	}
+
+	/** 배송지 등록 - patch /user/address/update */
+	public static async addressUpdate(req: Request, res: Response) {
+		const {
+			user,
+			body
+		} = req;
+
+		const {
+			address,
+			detailAddress,
+			addressPublicPassword
+		} = body;
+
+		Invalid.varchar(address, {
+			title: "주소",
+			maxLength: 64
+		});
+
+		Invalid.varchar(detailAddress, {
+			title: "상세주소",
+			maxLength: 255
+		});
+
+		Invalid.varchar(addressPublicPassword, {
+			title: "공동현관 비밀번호",
+			minLength: 2,
+			maxLength: 32,
+			nullable: true
+		});
+
+		await UserController.addressUpdate({
+			userId: user.id,
+			address,
+			detailAddress,
+			addressPublicPassword
+		});
+
+		return res.status(200).json({
+			opcode: Opcode.Success
+		});
+	}
+
+	/** 회원 탈퇴 - delete /user/withdrawal */
+	public static async withdrawal(req: Request, res: Response) {
+		const {
+			user
+		} = req;
+
+		await UserController.withdrawal(user.id);
+
+		return res.status(200).json({
+			opcode: Opcode.Success
+		});
+	}
 }

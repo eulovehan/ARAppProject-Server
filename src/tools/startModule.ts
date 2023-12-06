@@ -1,11 +1,15 @@
 import AppDataSource from "../dbSource";
 import WaterModel from "../models/water";
 import { SQLExceptionError } from "./error";
+import Scheduler from "./scheduler";
 
 export default class StartModule {
 	public static async main() {
 		/** generate water items */
 		await this.generateWaterItems();
+
+		/** generate schduler */
+		await Scheduler.main();
 		
 		return;
 	}

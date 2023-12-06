@@ -219,8 +219,8 @@ export default class UserController {
 		.catch((err) => {
 			throw SQLExceptionError("user.cardRegistration.findMoreCard", err);
 		});
-
-		const isMainPayment = !findMoreCard ? true : false;
+		
+		const isMainPayment = !findMoreCard.length ? true : false;
 
 		/** 유저 카드 생성 */
 		const userCard = new UserCardModel({
@@ -239,6 +239,134 @@ export default class UserController {
 		await userCard.save()
 		.catch((err) => {
 			throw SQLExceptionError("user.cardRegistration.save", err);
+		});
+
+		return;
+	}
+
+	/** 카드 삭제 */
+	public static async cardRemove(props: {
+		userId: string;
+		cardId: string;
+	}) {
+		const {
+			userId,
+			cardId
+		} = props;
+
+		/** 카드 존재여부 */
+		const card = await AppDataSource.getRepository(UserCardModel)
+		.createQueryBuilder("user_card")
+		.where("user_card.id = :cardId", { cardId })
+		.andWhere("user_card.userId = :userId", { userId })
+		.andWhere("user_card.enabled = :enabled", { enabled: true })
+		.getOne()
+		.catch((err) => {
+			throw SQLExceptionError("user.cardRemove.card", err);
+		});
+
+		if (!card) {
+			throw ServerError("카드가 존재하지 않습니다.", {
+				opcode: Opcode.NotExistsCardId
+			});
+		}
+
+		/** 카드 삭제 */
+		await AppDataSource.getRepository(UserCardModel)
+		.createQueryBuilder("user_card")
+		.where("user_card.id = :cardId", { cardId })
+		.andWhere("user_card.userId = :userId", { userId })
+		.andWhere("user_card.enabled = :enabled", { enabled: true })
+		.update()
+		.set({
+			enabled: false
+		})
+		.execute()
+		.catch((err) => {
+			throw SQLExceptionError("user.cardRemove.update", err);
+		});
+
+		return;
+	}
+
+	/** 배송지 현황 */
+	public static async addressInfo(userId: string) {
+		const { address, detailAddress, addressPublicPassword } = await AppDataSource.getRepository(UserModel)
+		.createQueryBuilder("user")
+		.select([
+			"user.address as address",
+			"user.detailAddress as detailAddress",
+			"user.addressPublicPassword as addressPublicPassword"
+		])
+		.where("user.id = :userId", { userId })
+		.getRawOne()
+		.then((res: {
+			address: string;
+			detailAddress: string;
+			addressPublicPassword: string;
+		}) => {
+			return {
+				address: res.address,
+				detailAddress: res.detailAddress,
+				addressPublicPassword: res.addressPublicPassword
+			}
+		})
+		.catch((err) => {
+			throw SQLExceptionError("user.addressInfo.address", err);
+		});
+
+		return {
+			address,
+			detailAddress,
+			addressPublicPassword
+		}
+	}
+
+	/** 배송지 등록 */
+	public static async addressUpdate(props: {
+		userId: string;
+		address: string;
+		detailAddress: string;
+		addressPublicPassword: string;
+	}) {
+		const {
+			userId,
+			address,
+			detailAddress,
+			addressPublicPassword
+		} = props;
+
+		/** 배송지 등록 */
+		await AppDataSource.getRepository(UserModel)
+		.createQueryBuilder("user")
+		.where("user.id = :userId", { userId })
+		.update()
+		.set({
+			address,
+			detailAddress,
+			addressPublicPassword
+		})
+		.execute()
+		.catch((err) => {
+			throw SQLExceptionError("user.addressRegistration.update", err);
+		});
+
+		return;
+	}
+
+	/** 회원 탈퇴 */
+	public static async withdrawal(userId: string) {
+		/** 회원 탈퇴 */
+		await AppDataSource.getRepository(UserModel)
+		.createQueryBuilder("user")
+		.where("user.id = :userId", { userId })
+		.update()
+		.set({
+			enabled: false
+		})
+		.execute()
+		.catch((err) => {
+			throw SQLExceptionError("user.withdrawal.update", err);
 		});
 
 		return;

@@ -22,8 +22,6 @@ export const UserMiddleWare = () => AsyncWrapper(
 		}
 
 		const token = authorization.split(" ")[1];
-		console.log("authorization => ", authorization);
-		console.log("token : ", token);
 		
 		/** 토큰 세션 검색 */
 		const session = await AppDataSource.getRepository(SessionModel)

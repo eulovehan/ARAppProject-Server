@@ -34,4 +34,7 @@ export enum Opcode {
 	
 	/** 배송 3일전에는 변경 불가 */
 	NotChangeWaterOptions = "NotChangeWaterOptions",
+
+	/** 카드가 존재하지 않음 */
+	NotExistsCardId = "NotExistsCardId",
 }
