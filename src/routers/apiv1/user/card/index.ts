@@ -12,4 +12,7 @@ router.get('/list', UserMiddleWare(), AsyncWrapper((req, res) => UserHandler.car
 /** 카드등록 */
 router.post('/registration', UserMiddleWare(), AsyncWrapper((req, res) => UserHandler.cardRegistration(req, res)));
 
+/** 카드등록 해제 */
+router.delete('/remove/:cardId', UserMiddleWare(), AsyncWrapper((req, res) => UserHandler.cardRemove(req, res)));
+
 export default router;
