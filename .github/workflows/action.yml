@@ -32,11 +32,10 @@ jobs:
           pm2 kill
           cd /home/ec2-user
           rm -rf app
-          mkdir -p app
-          cd app
-          git clone https://github.com/eulovehan/waterIV-Server.git
-          mv waterIV-Server/* ./
           rm -rf waterIV-Server
+          git clone https://github.com/eulovehan/waterIV-Server.git
+          mv waterIV-Server app
+          cd app
           cp -rp /home/ec2-user/config.js ./
           npm i --force
           npm run-script build
