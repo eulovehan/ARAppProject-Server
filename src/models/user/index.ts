@@ -1,8 +1,9 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import UserCardModel from "./card";
 import UserPaymentModel from "./payment";
 import SessionModel from "../session";
 import ErrorModel from "../error";
+import WaterModel from "../water";
 
 @Entity({ name: "user" })
 export default class UserModel extends BaseEntity {
@@ -50,8 +51,12 @@ export default class UserModel extends BaseEntity {
 	/** 식수량 */
 	@Column({ type: "varchar", length: 64, nullable: true, default: null })
 	public survey_amount: string;
-
+	
 	/** waters */
+	/** 구독 설정중인 물 id */
+	@Column({ type: "uuid", length: 36, nullable: true, default: null })
+	public waterId: string;
+	
 	/** 개수 */
 	@Column({ type: "int", nullable: true, default: null })
 	public water_amount: number;
@@ -60,9 +65,9 @@ export default class UserModel extends BaseEntity {
 	@Column({ type: "int", nullable: true, default: null })
 	public water_cycle: number;
 
-	/** 물 업데이트일 */
+	/** 물 배송일 */
 	@Column({ type: "timestamp", nullable: true, default: null })
-	public water_updatedAt: Date;
+	public water_deliveredAt: Date;
 
 	/** relation */
 	@OneToMany(() => UserCardModel, ({ user }) => user, ({ onDelete: "CASCADE" }))
@@ -76,4 +81,7 @@ export default class UserModel extends BaseEntity {
 
 	@OneToMany(() => ErrorModel, ({ user }) => user, ({ onDelete: "SET NULL", nullable: true }))
 	public error: Array<ErrorModel>;
+
+	@ManyToOne(() => WaterModel, ({ user }) => user, ({ onDelete: "SET NULL", nullable: true }))
+	public water: WaterModel;
 }

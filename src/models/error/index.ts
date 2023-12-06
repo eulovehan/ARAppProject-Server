@@ -16,7 +16,7 @@ export default class ErrorModel extends BaseEntity {
 	public id: string;
 
 	/** user id */
-	@Column({ type: "uuid", nullable: true, default: null })
+	@Column({ type: "uuid", length: 36, nullable: true, default: null })
 	public userId: string;
 
 	/** error message */

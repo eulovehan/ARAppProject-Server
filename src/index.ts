@@ -1,5 +1,6 @@
 import Async from "async";
 import AppDataSource from "./dbSource";
+import startModule from "./tools/startModule";
 
 /** system boot */
 Async.series([
@@ -9,6 +10,18 @@ Async.series([
 		AppDataSource.initialize()
 		.then(() => {
 			console.info("Database Connection Initialized.");
+			return callback(null);
+		})
+		.catch((err) => {
+			console.log(err);
+			return callback(err);
+		});
+	},
+
+	/** start module boot */
+	(callback) => {
+		startModule.main()
+		.then(() => {
 			return callback(null);
 		})
 		.catch((err) => {

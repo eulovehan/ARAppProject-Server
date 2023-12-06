@@ -143,7 +143,7 @@ export default class AuthController {
 	}
 
 	/** create token */
-	public static async generateToken(length: number = 128) {
+	public static async generateToken(length: number = 64) {
 		return crypto.randomBytes(length).toString("hex");
 	}
 }

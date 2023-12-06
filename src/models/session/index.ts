@@ -16,7 +16,7 @@ export default class SessionModel extends BaseEntity {
 	public id: string;
 
 	/** user id */
-	@Column({ type: "uuid", nullable: false })
+	@Column({ type: "uuid", length: 36, nullable: false })
 	public userId: string;
 
 	/** session token */

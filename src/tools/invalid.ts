@@ -54,6 +54,29 @@ export default class Invalid {
 		return true;
 	}
 
+	public static number(data: any, props: {
+		title: string;
+		nullable?: boolean;
+	}) {
+		const {
+			title,
+			nullable
+		} = props;
+
+		if (nullable && !data) {
+			return true;
+		}
+
+		if (!(typeof data === "number")) {
+			throw ServerError(`${title} 데이터 타입 검증에 실패 했습니다.`, {
+				opcode: Opcode.InvalidInput,
+				input: data
+			});
+		}
+		
+		return true;
+	}
+
 	public static email(data: string, props: {
 		title: string;
 		isSoftCheck?: boolean;
