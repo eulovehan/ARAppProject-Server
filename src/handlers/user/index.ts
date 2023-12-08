@@ -15,13 +15,16 @@ export default class UserHandler {
 		const leftDay = moment(user.water_deliveredAt).diff(moment(), "days");
 
 		/** 생수이름 */
-		const waterTitle = await UserController.waterInfo(user.waterId);
+		const water = await UserController.waterInfo(user.waterId);
 		
 		return res.status(200).json({
 			opcode: Opcode.Success,
 			isSetWater: user.waterId ? true : false,
 			leftDay,
-			waterTitle,
+			waterId: user.waterId,
+			water,
+			waterAmount: user.water_amount,
+			cycle: user.water_cycle,
 		});
 	}
 
